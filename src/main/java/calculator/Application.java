@@ -23,15 +23,26 @@ public class Application {
 
         //기본으로 값을 더해주는 루프문
         for(; i < str.length(); i++) {
+            //숫자가 들어오는 경우
+            if(str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+                //숫자가 연속으로 들어오는 경우 예외 처리
+                if(i > 0 && str.charAt(i-1) >= '0' && str.charAt(i-1) <= '9')
+                    throw new IllegalArgumentException("숫자를 연속으로 입력할 수 없습니다.");
+
+                // 마지막 문자가 숫자인 경우 더해주기
+                if(i == str.length()-1)
+                    sum += str.charAt(i) - '0';
+                continue;
+            }
+
             for(int j = 0; j < sign_idx; j++) {
                 if(str.charAt(i) == sign[j]) {
                     sum += str.charAt(i-1)-'0';
                     break;
                 }
+                //구분자가 아닌 문자가 들어오는 경우 예외 처리 (break가 안 걸린 경우)
+                throw new IllegalArgumentException("올바르지 않은 문자열입니다.");
             }
-            // 마지막 문자가 숫자인 경우 더해주기
-            if(i == str.length()-1 && (str.charAt(i) >= '0' && str.charAt(i) <= '9'))
-                sum += str.charAt(i) - '0';
         }
 
         System.out.println("결과 : " + sum);
